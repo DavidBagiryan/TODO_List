@@ -55,19 +55,19 @@ category     // категория
 разрешён ввод лишних пробелов в начале и конце предиката, а также между ключевым словом **and**.
 ## Пример  
 - Вспомогательные команды (**help**, **time**, **help_category**, **exit**):  
-![image](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_prikols%20.gif)  
+![giffif](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_prikols%20.gif)  
 - Команда **add**:  
-![image](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_add.gif)  
+![giffif](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_add.gif)  
 - Возможные ошибки в команде **add**:  
-![image](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_add_false.gif)  
+![giffif](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_add_false.gif)  
 - Команда **done**:  
-![image](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_done.gif)  
+![giffif](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_done.gif)  
 - Команда **update**:  
-![image](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_update.gif)  
+![giffif](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_update.gif)  
 - Команда **delete**:  
-![image](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_delete.gif)  
+![giffif](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_delete.gif)  
 - Команда **select \* where {...}**:  
-![image](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_select_all.gif)  
+![giffif](https://github.com/DavidBagiryan/GifAndSome/blob/main/ToDoList/todo_select_all.gif)  
 ## Инструкция по использованию
 Перенесите файлы в свой проект, внесите изменения в файлы todolist.h и todolist.cpp, чтобы использовать свои категории.
 ## Системные требования

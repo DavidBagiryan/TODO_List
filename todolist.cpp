@@ -2,14 +2,14 @@
 
 #include <unordered_set>
 
-// считывание строк
+// СЃС‡РёС‚С‹РІР°РЅРёРµ СЃС‚СЂРѕРє
 std::string ReadLine(std::istream& istream) {
 	std::string s;
 	std::getline(istream, s);
 	return s;
 }
 
-// разбиение строк по делителю
+// СЂР°Р·Р±РёРµРЅРёРµ СЃС‚СЂРѕРє РїРѕ РґРµР»РёС‚РµР»СЋ
 std::vector<std::string_view> SplitIntoWords(std::string_view str, const char div) {
 	std::vector<std::string_view> result;
 	const int64_t pos_end = str.npos;
@@ -109,7 +109,7 @@ Date& Date::operator=(const std::string_view date_time_text) {
 		if (!(0 <= min && min <= 59)) throw error_data__;
 	}
 	catch (...) {
-		std::cerr << "[Неверный формат даты/времени]"s << std::endl;
+		std::cerr << "[РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РґР°С‚С‹/РІСЂРµРјРµРЅРё]"s << std::endl;
 		year = old_date.year;
 		mounth = old_date.mounth;
 		day = old_date.day;
@@ -124,14 +124,14 @@ std::ostream& to_do_list::operator<<(std::ostream& out, const Date& date) {
 		" "s + std::to_string(date.hour) + ":"s + std::to_string(date.min);
 }
 
-// проверка года на високосность
+// РїСЂРѕРІРµСЂРєР° РіРѕРґР° РЅР° РІРёСЃРѕРєРѕСЃРЅРѕСЃС‚СЊ
 bool to_do_list::IsLeap(const int year) {
 	return (year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0));
 }
 
-// обработчик введенной информации
+// РѕР±СЂР°Р±РѕС‚С‡РёРє РІРІРµРґРµРЅРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё
 bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
-	output << "- Введите команду. Список и описание доступных комманд можно узнать командой help."s << std::endl;
+	output << "- Р’РІРµРґРёС‚Рµ РєРѕРјР°РЅРґСѓ. РЎРїРёСЃРѕРє Рё РѕРїРёСЃР°РЅРёРµ РґРѕСЃС‚СѓРїРЅС‹С… РєРѕРјРјР°РЅРґ РјРѕР¶РЅРѕ СѓР·РЅР°С‚СЊ РєРѕРјР°РЅРґРѕР№ help."s << std::endl;
 	std::string query = ReadLine(input);
 	ToDoPage page;
 	auto query_words = SplitIntoWords(query);
@@ -149,7 +149,7 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 	if (query_words[0] == "add"s) {
 		if (query_words.size() != 2) throw error_command__;
 		page.name = query_words[1];
-		// проверка наличия заголовка в списке и дальнейшая обработка
+		// РїСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ Р·Р°РіРѕР»РѕРІРєР° РІ СЃРїРёСЃРєРµ Рё РґР°Р»СЊРЅРµР№С€Р°СЏ РѕР±СЂР°Р±РѕС‚РєР°
 		if (list_.find(page.name) != list_.end()) {
 			output << error_name_yes__ << std::endl;
 			while (true) {
@@ -163,26 +163,26 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 			}
 		}
 
-		output << "- Введите описание задачи."s << std::endl;
+		output << "- Р’РІРµРґРёС‚Рµ РѕРїРёСЃР°РЅРёРµ Р·Р°РґР°С‡Рё."s << std::endl;
 		page.description = ReadLine(input);
 
 		const Date default_date;
 		do {
-			output << "- Введите дату и время в формате y-m-d h:m (2020-12-12 00:00) или введите time, чтобы вставить текущие дату и время."s << std::endl;
+			output << "- Р’РІРµРґРёС‚Рµ РґР°С‚Сѓ Рё РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ y-m-d h:m (2020-12-12 00:00) РёР»Рё РІРІРµРґРёС‚Рµ time, С‡С‚РѕР±С‹ РІСЃС‚Р°РІРёС‚СЊ С‚РµРєСѓС‰РёРµ РґР°С‚Сѓ Рё РІСЂРµРјСЏ."s << std::endl;
 			std::string date = ReadLine(input);
 			if (date == "time"s) {
 				date = GetTimeNow();
-				output << "[Записаны текущие дата и время - "s + date + "]"s << std::endl;
+				output << "[Р—Р°РїРёСЃР°РЅС‹ С‚РµРєСѓС‰РёРµ РґР°С‚Р° Рё РІСЂРµРјСЏ - "s + date + "]"s << std::endl;
 			}
 			page.date = std::move(date);
 		} while (page.date == default_date);
 
 		Category category = Category::DEFAULT;
 		while (category == Category::DEFAULT) {
-			output << "- Введите категорию задачи. Узнать доступные категории можно командой help_category."s << std::endl;
+			output << "- Р’РІРµРґРёС‚Рµ РєР°С‚РµРіРѕСЂРёСЋ Р·Р°РґР°С‡Рё. РЈР·РЅР°С‚СЊ РґРѕСЃС‚СѓРїРЅС‹Рµ РєР°С‚РµРіРѕСЂРёРё РјРѕР¶РЅРѕ РєРѕРјР°РЅРґРѕР№ help_category."s << std::endl;
 			std::string text = ReadLine(input);
 			if (text == "help_category"s) {
-				output << "[Доступные категории:]\n"s << line__ << '\n';
+				output << "[Р”РѕСЃС‚СѓРїРЅС‹Рµ РєР°С‚РµРіРѕСЂРёРё:]\n"s << line__ << '\n';
 				for (const std::string& c : category__) output << c << '\n';
 				output << line__ << std::endl;
 				continue;
@@ -199,7 +199,7 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 		}
 
 		Add(page);
-		output << "[Задача добавлена в список.]\n"s << line__ << std::endl;
+		output << "[Р—Р°РґР°С‡Р° РґРѕР±Р°РІР»РµРЅР° РІ СЃРїРёСЃРѕРє.]\n"s << line__ << std::endl;
 	}
 	else if (query_words[0] == "done"s) {
 		if (query_words.size() != 2) {
@@ -208,7 +208,7 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 		}
 		try {
 			Done(query_words[1]);
-			output << "[Задача отмечена выполненной.]\n"s << line__ << std::endl;
+			output << "[Р—Р°РґР°С‡Р° РѕС‚РјРµС‡РµРЅР° РІС‹РїРѕР»РЅРµРЅРЅРѕР№.]\n"s << line__ << std::endl;
 		}
 		catch (...) {
 			output << error_name_no__ << std::endl;
@@ -222,7 +222,7 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 		}
 		try {
 			Update(query_words[1], input, output);
-			output << "[Задача обновлена.]\n"s << line__ << std::endl;
+			output << "[Р—Р°РґР°С‡Р° РѕР±РЅРѕРІР»РµРЅР°.]\n"s << line__ << std::endl;
 		}
 		catch (...) {
 			output << error_name_no__ << std::endl;
@@ -236,7 +236,7 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 		}
 		try {
 			Delete(query_words[1]);
-			output << "[Задача удалена из списка.]\n"s << line__ << std::endl;
+			output << "[Р—Р°РґР°С‡Р° СѓРґР°Р»РµРЅР° РёР· СЃРїРёСЃРєР°.]\n"s << line__ << std::endl;
 		}
 		catch (...) {
 			output << error_name_no__ << std::endl;
@@ -245,8 +245,8 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 	}
 	else if (query_words[0] == "select"s && query_words[1] == "*"s) {
 		if (query_words.size() == 2) {
-			if (list_.empty()) output << "[Список задач пуст.]"s << std::endl;
-			else output << "[Задач в списке: "s << list_.size() << "]\n"s << list_;
+			if (list_.empty()) output << "[РЎРїРёСЃРѕРє Р·Р°РґР°С‡ РїСѓСЃС‚.]"s << std::endl;
+			else output << "[Р—Р°РґР°С‡ РІ СЃРїРёСЃРєРµ: "s << list_.size() << "]\n"s << list_;
 		}
 		else if (query_words[2] == "where"s) {
 			size_t id_op = query.find('{');
@@ -258,7 +258,7 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 			std::string predicate = query.substr(id_op + 1, id_cl - id_op - 1);
 			try {
 				auto list = Select(std::move(predicate));
-				output << "[Выборка завершена. Количество совпадений: "s << list.size() << "]\n"s << list;
+				output << "[Р’С‹Р±РѕСЂРєР° Р·Р°РІРµСЂС€РµРЅР°. РљРѕР»РёС‡РµСЃС‚РІРѕ СЃРѕРІРїР°РґРµРЅРёР№: "s << list.size() << "]\n"s << list;
 			}
 			catch (...) {
 				output << error_command__ << std::endl;
@@ -277,7 +277,7 @@ bool ToDoList::EnterCommand(std::istream& input, std::ostream& output) {
 	return true;
 }
 
-// получить текущие дату и время в формате y-m-d h:m
+// РїРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰РёРµ РґР°С‚Сѓ Рё РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ y-m-d h:m
 std::string ToDoList::GetTimeNow() {
 	int year, mon, mday, hour, min;
 	const time_t tStart = time(0);
@@ -287,79 +287,79 @@ std::string ToDoList::GetTimeNow() {
 	return std::to_string(year) + "-"s + std::to_string(mon) + "-"s + std::to_string(mday) + " "s + std::to_string(hour) + ":"s + std::to_string(min);
 }
 
-// команда Помощь
+// РєРѕРјР°РЅРґР° РџРѕРјРѕС‰СЊ
 void ToDoList::Help(std::ostream& output) {
 	output <<
-		"[Список доступных комманд:]\n" << line__ << '\n' <<
-		"[add NAME]\t\t\t - добавить новую задачу в список, где NAME - заголовок задачи;\n"s <<
-		"[done NAME]\t\t\t - отметить задачу как выполненную, где NAME - заголовок задачи;\n"s <<
-		"[update NAME]\t\t\t - обновить задачу, где NAME - заголовок задачи;\n"s <<
-		"[delete NAME]\t\t\t - удалить задачу из списка, где NAME - заголовок задачи;\n"s <<
-		"[select *]\t\t\t - вывод всех задач\n"s <<
-		"[select * where {PREDICATE}]\t - вывод задач по определённому критерию\n"s <<
-		"Пример: select * where {date < \"2020-12-12 00:00\" and category=\"cat1\" and status=\"on\" and description like \"text\"}, где варианты операторов сравнения: <,<=,=,>=,<; комбинация условия доступна только через and; ключевое слово like обеспечивает фильтр по наличию заданной подстроки в поле;\n"s <<
+		"[РЎРїРёСЃРѕРє РґРѕСЃС‚СѓРїРЅС‹С… РєРѕРјРјР°РЅРґ:]\n" << line__ << '\n' <<
+		"[add NAME]\t\t\t - РґРѕР±Р°РІРёС‚СЊ РЅРѕРІСѓСЋ Р·Р°РґР°С‡Сѓ РІ СЃРїРёСЃРѕРє, РіРґРµ NAME - Р·Р°РіРѕР»РѕРІРѕРє Р·Р°РґР°С‡Рё;\n"s <<
+		"[done NAME]\t\t\t - РѕС‚РјРµС‚РёС‚СЊ Р·Р°РґР°С‡Сѓ РєР°Рє РІС‹РїРѕР»РЅРµРЅРЅСѓСЋ, РіРґРµ NAME - Р·Р°РіРѕР»РѕРІРѕРє Р·Р°РґР°С‡Рё;\n"s <<
+		"[update NAME]\t\t\t - РѕР±РЅРѕРІРёС‚СЊ Р·Р°РґР°С‡Сѓ, РіРґРµ NAME - Р·Р°РіРѕР»РѕРІРѕРє Р·Р°РґР°С‡Рё;\n"s <<
+		"[delete NAME]\t\t\t - СѓРґР°Р»РёС‚СЊ Р·Р°РґР°С‡Сѓ РёР· СЃРїРёСЃРєР°, РіРґРµ NAME - Р·Р°РіРѕР»РѕРІРѕРє Р·Р°РґР°С‡Рё;\n"s <<
+		"[select *]\t\t\t - РІС‹РІРѕРґ РІСЃРµС… Р·Р°РґР°С‡\n"s <<
+		"[select * where {PREDICATE}]\t - РІС‹РІРѕРґ Р·Р°РґР°С‡ РїРѕ РѕРїСЂРµРґРµР»С‘РЅРЅРѕРјСѓ РєСЂРёС‚РµСЂРёСЋ\n"s <<
+		"РџСЂРёРјРµСЂ: select * where {date < \"2020-12-12 00:00\" and category=\"cat1\" and status=\"on\" and description like \"text\"}, РіРґРµ РІР°СЂРёР°РЅС‚С‹ РѕРїРµСЂР°С‚РѕСЂРѕРІ СЃСЂР°РІРЅРµРЅРёСЏ: <,<=,=,>=,<; РєРѕРјР±РёРЅР°С†РёСЏ СѓСЃР»РѕРІРёСЏ РґРѕСЃС‚СѓРїРЅР° С‚РѕР»СЊРєРѕ С‡РµСЂРµР· and; РєР»СЋС‡РµРІРѕРµ СЃР»РѕРІРѕ like РѕР±РµСЃРїРµС‡РёРІР°РµС‚ С„РёР»СЊС‚СЂ РїРѕ РЅР°Р»РёС‡РёСЋ Р·Р°РґР°РЅРЅРѕР№ РїРѕРґСЃС‚СЂРѕРєРё РІ РїРѕР»Рµ;\n"s <<
 		line__ << std::endl;
 }
 
-// команда Добавить задачу
+// РєРѕРјР°РЅРґР° Р”РѕР±Р°РІРёС‚СЊ Р·Р°РґР°С‡Сѓ
 void ToDoList::Add(ToDoPage page) {
 	list_.emplace(page.name, page);
 }
 
-// команда Отметить задачу как выполненную
+// РєРѕРјР°РЅРґР° РћС‚РјРµС‚РёС‚СЊ Р·Р°РґР°С‡Сѓ РєР°Рє РІС‹РїРѕР»РЅРµРЅРЅСѓСЋ
 void ToDoList::Done(std::string_view name) {
 	StatusChange(std::string(name), Status::DONE);
 }
 
-// команда Обновить задачу
+// РєРѕРјР°РЅРґР° РћР±РЅРѕРІРёС‚СЊ Р·Р°РґР°С‡Сѓ
 void ToDoList::Update(std::string_view name, std::istream& input, std::ostream& output) {
 	auto it = list_.find(std::string(name));
 	if (it == list_.end()) throw error_data__;
 	auto& page_link = (*it).second;
 	
-	output << "- Введите новое описание задачи или нажмите Enter, чтобы оставить старое описание."s << std::endl;
+	output << "- Р’РІРµРґРёС‚Рµ РЅРѕРІРѕРµ РѕРїРёСЃР°РЅРёРµ Р·Р°РґР°С‡Рё РёР»Рё РЅР°Р¶РјРёС‚Рµ Enter, С‡С‚РѕР±С‹ РѕСЃС‚Р°РІРёС‚СЊ СЃС‚Р°СЂРѕРµ РѕРїРёСЃР°РЅРёРµ."s << std::endl;
 	std::string description_new = ReadLine(input);
 	if (description_new != ""s) {
 		page_link.description = description_new;
-		output << "[Описание обновлено.]"s << std::endl;
+		output << "[РћРїРёСЃР°РЅРёРµ РѕР±РЅРѕРІР»РµРЅРѕ.]"s << std::endl;
 	}
-	else output << "[Оставлено старое описание.]"s << std::endl;
+	else output << "[РћСЃС‚Р°РІР»РµРЅРѕ СЃС‚Р°СЂРѕРµ РѕРїРёСЃР°РЅРёРµ.]"s << std::endl;
 
 	const Date default_date;
 	do {
-		output << "- Введите дату и время в формате y-m-d h:m (2020-12-12 00:00) или введите time, чтобы вставить текущие дату и время. Нажмите Enter, чтобы оставить страое время."s << std::endl;
+		output << "- Р’РІРµРґРёС‚Рµ РґР°С‚Сѓ Рё РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ y-m-d h:m (2020-12-12 00:00) РёР»Рё РІРІРµРґРёС‚Рµ time, С‡С‚РѕР±С‹ РІСЃС‚Р°РІРёС‚СЊ С‚РµРєСѓС‰РёРµ РґР°С‚Сѓ Рё РІСЂРµРјСЏ. РќР°Р¶РјРёС‚Рµ Enter, С‡С‚РѕР±С‹ РѕСЃС‚Р°РІРёС‚СЊ СЃС‚СЂР°РѕРµ РІСЂРµРјСЏ."s << std::endl;
 		std::string date = ReadLine(input);
 		if (date == "time"s) {
 			date = GetTimeNow();
-			output << "[Записаны текущие дата и время - "s + date + "]"s << std::endl;
+			output << "[Р—Р°РїРёСЃР°РЅС‹ С‚РµРєСѓС‰РёРµ РґР°С‚Р° Рё РІСЂРµРјСЏ - "s + date + "]"s << std::endl;
 			page_link.date = std::move(date);
 		}
 		else if (date != ""s) {
 			page_link.date = std::move(date);
-			output << "[Время обновлено.]"s << std::endl;
+			output << "[Р’СЂРµРјСЏ РѕР±РЅРѕРІР»РµРЅРѕ.]"s << std::endl;
 		}
-		else output << "[Оставлено старое время.]"s << std::endl;
+		else output << "[РћСЃС‚Р°РІР»РµРЅРѕ СЃС‚Р°СЂРѕРµ РІСЂРµРјСЏ.]"s << std::endl;
 	} while (page_link.date == default_date);
 
 	Category category_new = Category::DEFAULT;
 	while (category_new == Category::DEFAULT) {
-		output << "- Введите категорию задачи или нажмите Enter, чтобы оставить старую категорию. Узнать доступные категории можно командой help_category."s << std::endl;
+		output << "- Р’РІРµРґРёС‚Рµ РєР°С‚РµРіРѕСЂРёСЋ Р·Р°РґР°С‡Рё РёР»Рё РЅР°Р¶РјРёС‚Рµ Enter, С‡С‚РѕР±С‹ РѕСЃС‚Р°РІРёС‚СЊ СЃС‚Р°СЂСѓСЋ РєР°С‚РµРіРѕСЂРёСЋ. РЈР·РЅР°С‚СЊ РґРѕСЃС‚СѓРїРЅС‹Рµ РєР°С‚РµРіРѕСЂРёРё РјРѕР¶РЅРѕ РєРѕРјР°РЅРґРѕР№ help_category."s << std::endl;
 		std::string text = ReadLine(input);
 		if (text == "help_category"s) {
-			output << "[Доступные категории:]\n"s << line__ << '\n';
+			output << "[Р”РѕСЃС‚СѓРїРЅС‹Рµ РєР°С‚РµРіРѕСЂРёРё:]\n"s << line__ << '\n';
 			for (const std::string& c : category__) output << c << '\n';
 			output << line__ << std::endl;
 			continue;
 		}
 		else if (text == ""s) {
-			output << "[Оставлена старая категория.]"s << std::endl;
+			output << "[РћСЃС‚Р°РІР»РµРЅР° СЃС‚Р°СЂР°СЏ РєР°С‚РµРіРѕСЂРёСЏ.]"s << std::endl;
 			break;
 		}
 
 		try {
 			category_new = GetCategory(text);
 			page_link.category = std::move(category_new);
-			output << "[Категория обновлена.]"s << std::endl;
+			output << "[РљР°С‚РµРіРѕСЂРёСЏ РѕР±РЅРѕРІР»РµРЅР°.]"s << std::endl;
 		}
 		catch (...) {
 			output << error_data__ << std::endl;
@@ -369,17 +369,17 @@ void ToDoList::Update(std::string_view name, std::istream& input, std::ostream& 
 
 	std::string status_new_text = ""s;
 	while (status_new_text == ""s) {
-		output << "- Введите новый статус задачи или нажмите Enter, чтобы оставить старый статус."s << std::endl;
+		output << "- Р’РІРµРґРёС‚Рµ РЅРѕРІС‹Р№ СЃС‚Р°С‚СѓСЃ Р·Р°РґР°С‡Рё РёР»Рё РЅР°Р¶РјРёС‚Рµ Enter, С‡С‚РѕР±С‹ РѕСЃС‚Р°РІРёС‚СЊ СЃС‚Р°СЂС‹Р№ СЃС‚Р°С‚СѓСЃ."s << std::endl;
 		status_new_text = ReadLine(input);
 		if (status_new_text == ""s) {
-			output << "[Оставлен старый статус.]"s << std::endl;
+			output << "[РћСЃС‚Р°РІР»РµРЅ СЃС‚Р°СЂС‹Р№ СЃС‚Р°С‚СѓСЃ.]"s << std::endl;
 			break;
 		}
 
 		try {
 			Status status_new = GetStasus(status_new_text);
 			page_link.status = status_new;
-			output << "[Статус обновлен.]"s << std::endl;
+			output << "[РЎС‚Р°С‚СѓСЃ РѕР±РЅРѕРІР»РµРЅ.]"s << std::endl;
 		}
 		catch (...) {
 			output << error_data__ << std::endl;
@@ -388,14 +388,14 @@ void ToDoList::Update(std::string_view name, std::istream& input, std::ostream& 
 	}
 }
 
-// команда Удалить задачу
+// РєРѕРјР°РЅРґР° РЈРґР°Р»РёС‚СЊ Р·Р°РґР°С‡Сѓ
 void ToDoList::Delete(std::string_view name) {
 	auto it = list_.find(std::string(name));
 	if (it == list_.end()) throw error_data__;
 	list_.erase(it);
 }
 
-// команда Отфильтровать список задач по предикату
+// РєРѕРјР°РЅРґР° РћС‚С„РёР»СЊС‚СЂРѕРІР°С‚СЊ СЃРїРёСЃРѕРє Р·Р°РґР°С‡ РїРѕ РїСЂРµРґРёРєР°С‚Сѓ
 std::unordered_map<ToDoList::Header, ToDoPage> ToDoList::Select(std::string&& predicate) {
 	std::unordered_map<Header, ToDoPage> list_sort;
 	bool first_cycle = true;
@@ -436,7 +436,7 @@ std::unordered_map<ToDoList::Header, ToDoPage> ToDoList::Select(std::string&& pr
 	return list_sort;
 }
 
-// изменить статус задачи
+// РёР·РјРµРЅРёС‚СЊ СЃС‚Р°С‚СѓСЃ Р·Р°РґР°С‡Рё
 void ToDoList::StatusChange(const Header& name, const Status& status) {
 	auto it = list_.find(name);
 	if (it == list_.end()) throw error_data__;
@@ -444,7 +444,7 @@ void ToDoList::StatusChange(const Header& name, const Status& status) {
 	if (page_link.second.status != status) page_link.second.status = status;
 }
 
-// фильтрация списка задач по динамическому значению предиката
+// С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ РґРёРЅР°РјРёС‡РµСЃРєРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ РїСЂРµРґРёРєР°С‚Р°
 std::variant<SortDescription, SortDate> ToDoList::ProcessPredicateSortDynamicValue(std::string& predicate, size_t op_quo) {
 	std::variant<SortDescription, SortDate> result;
 	size_t id_space_af = predicate.find_last_of(' ', op_quo - 2);
@@ -461,7 +461,7 @@ std::variant<SortDescription, SortDate> ToDoList::ProcessPredicateSortDynamicVal
 	return result;
 }
 
-// фильтрация списка задач по описанию
+// С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ РѕРїРёСЃР°РЅРёСЋ
 SortDescription ToDoList::ProcessPredicateSortDescription(bool like, std::string& predicate, size_t op_quo, size_t id_space_af) {
 	SortDescription sort_description;
 	if (like) {
@@ -486,7 +486,7 @@ SortDescription ToDoList::ProcessPredicateSortDescription(bool like, std::string
 	return sort_description;
 }
 
-// выделение текста описания из предиката
+// РІС‹РґРµР»РµРЅРёРµ С‚РµРєСЃС‚Р° РѕРїРёСЃР°РЅРёСЏ РёР· РїСЂРµРґРёРєР°С‚Р°
 std::string ToDoList::FindDescriptonText(const std::string& text, const size_t op_quo, size_t size_for_find) {
 	size_t last_quo = text.find_last_of('\"', size_for_find);
 	size_t last_and = text.rfind(" and "s, size_for_find);
@@ -497,7 +497,7 @@ std::string ToDoList::FindDescriptonText(const std::string& text, const size_t o
 	else return FindDescriptonText(text, op_quo, new_last_quo);
 }
 
-// фильтрация списка задач по дате
+// С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ РґР°С‚Рµ
 SortDate ToDoList::ProcessPredicateSortDate(const std::string& compare, std::string& predicate, size_t op_quo, size_t id_space_af) {
 	SortDate sort_date;
 	std::unordered_set<std::string> comp = { "<"s, "<="s, "="s, ">="s, ">"s }; // select * where {       date < "2020-12-12 00:00" and date > "2020-12-12 00:00"}
@@ -524,7 +524,7 @@ SortDate ToDoList::ProcessPredicateSortDate(const std::string& compare, std::str
 	return sort_date;
 }
 
-// фильтрация списка задач по статическому значению предиката
+// С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ СЃС‚Р°С‚РёС‡РµСЃРєРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ РїСЂРµРґРёРєР°С‚Р°
 std::variant<Category, Status> ToDoList::ProcessPredicateSortStaticValue(std::string& predicate, size_t op_quo) {
 	std::variant<Category, Status> result; // select * where {     category="CATEGORY1"     and     status="on"     }
 	size_t cl_quo = predicate.find('\"', op_quo + 1); // select * where {     category="CATEGORY1"     and     status="on"}
@@ -545,7 +545,7 @@ std::variant<Category, Status> ToDoList::ProcessPredicateSortStaticValue(std::st
 	return result;
 }
 
-// получение значения категории
+// РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РєР°С‚РµРіРѕСЂРёРё
 Category ToDoList::GetCategory(const std::string& config) {
 	Category result;
 	if (config == "CATEGORY1"s) result = Category::CATEGORY1;
@@ -555,7 +555,7 @@ Category ToDoList::GetCategory(const std::string& config) {
 	return result;
 }
 
-// получение значения статуса из предиката
+// РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЃС‚Р°С‚СѓСЃР° РёР· РїСЂРµРґРёРєР°С‚Р°
 Status ToDoList::GetStasus(const std::string& config) {
 	Status result;
 	if (config == "on"s) result = Status::PROCESS;
@@ -564,7 +564,7 @@ Status ToDoList::GetStasus(const std::string& config) {
 	return result;
 }
 
-// удаление лишнего кллючего слова and в предикате
+// СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРµРіРѕ РєР»Р»СЋС‡РµРіРѕ СЃР»РѕРІР° and РІ РїСЂРµРґРёРєР°С‚Рµ
 void ToDoList::DeletePredicateAnd(std::string& predicate, size_t id_space) {
 	if (predicate.size() > 0 && predicate.find_first_not_of(' ') != predicate.npos) {
 		size_t id_and = predicate.find(" and "s);
@@ -573,7 +573,7 @@ void ToDoList::DeletePredicateAnd(std::string& predicate, size_t id_space) {
 	}
 }
 
-// получение отфильтрованного списка
+// РїРѕР»СѓС‡РµРЅРёРµ РѕС‚С„РёР»СЊС‚СЂРѕРІР°РЅРЅРѕРіРѕ СЃРїРёСЃРєР°
 std::unordered_map<ToDoList::Header, ToDoPage> ToDoList::SortByPredicate(const std::unordered_map<Header, ToDoPage>& list, const Variable& comp) {
 	std::unordered_map<Header, ToDoPage> result;
 
@@ -644,11 +644,11 @@ std::unordered_map<ToDoList::Header, ToDoPage> ToDoList::SortByPredicate(const s
 std::ostream& to_do_list::operator<<(std::ostream& out, const std::unordered_map<std::string, ToDoPage>& list) {
 	for (const auto& [header, page] : list) {
 		out << line__ <<
-			"\nЗаголовок:\t"s << page.name <<
-			"\nОписание:\t"s << page.description <<
-			"\nДата:\t\t"s << page.date <<
-			"\nКатегория:\t"s << page.category <<
-			"\nСтатус:\t\t["s << page.status << "]\n"s;
+			"\nР—Р°РіРѕР»РѕРІРѕРє:\t"s << page.name <<
+			"\nРћРїРёСЃР°РЅРёРµ:\t"s << page.description <<
+			"\nР”Р°С‚Р°:\t\t"s << page.date <<
+			"\nРљР°С‚РµРіРѕСЂРёСЏ:\t"s << page.category <<
+			"\nРЎС‚Р°С‚СѓСЃ:\t\t["s << page.status << "]\n"s;
 	}
 	return out << line__ << std::endl;
 }

@@ -8,23 +8,23 @@
 
 using namespace std::literals;
 
-// считывание строк
+// СЃС‡РёС‚С‹РІР°РЅРёРµ СЃС‚СЂРѕРє
 std::string ReadLine(std::istream& istream);
 
-// разбиение строк по делителю
+// СЂР°Р·Р±РёРµРЅРёРµ СЃС‚СЂРѕРє РїРѕ РґРµР»РёС‚РµР»СЋ
 std::vector<std::string_view> SplitIntoWords(std::string_view str, const char div = ' ');
 
 namespace to_do_list {
-    static const std::string error_command__ = "[Неверный формат команды.]"s;
-    static const std::string error_data__ = "[Неверный формат данных.]"s;
-    static const std::string error_name_no__ = "[Такой задачи не существует.]"s;
-    static const std::string error_name_yes__ = "[Такая задача уже существует. Хотите её заменить?]\n[yes/no]"s;
+    static const std::string error_command__ = "[РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РєРѕРјР°РЅРґС‹.]"s;
+    static const std::string error_data__ = "[РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РґР°РЅРЅС‹С….]"s;
+    static const std::string error_name_no__ = "[РўР°РєРѕР№ Р·Р°РґР°С‡Рё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.]"s;
+    static const std::string error_name_yes__ = "[РўР°РєР°СЏ Р·Р°РґР°С‡Р° СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚. РҐРѕС‚РёС‚Рµ РµС‘ Р·Р°РјРµРЅРёС‚СЊ?]\n[yes/no]"s;
 
     static const std::string line__ = "----------------------------"s;
 
     static const std::string category__[] = { "CATEGORY1"s, "CATEGORY2"s, "CATEGORY3"s };
 
-    // список категорий
+    // СЃРїРёСЃРѕРє РєР°С‚РµРіРѕСЂРёР№
     enum Category {
         DEFAULT = 0,
         CATEGORY1 = 1,
@@ -34,7 +34,7 @@ namespace to_do_list {
 
     std::ostream& operator<<(std::ostream& out, const Category& category);
 
-    // список статусов
+    // СЃРїРёСЃРѕРє СЃС‚Р°С‚СѓСЃРѕРІ
     enum Status {
         PROCESS = 0,
         DONE = 1
@@ -42,7 +42,7 @@ namespace to_do_list {
 
     std::ostream& operator<<(std::ostream& out, const Status& status);
 
-    // структура хранения даты и времени
+    // СЃС‚СЂСѓРєС‚СѓСЂР° С…СЂР°РЅРµРЅРёСЏ РґР°С‚С‹ Рё РІСЂРµРјРµРЅРё
     struct Date {
         int year = 0;
         std::uint8_t mounth = 1;
@@ -82,10 +82,10 @@ namespace to_do_list {
 
     std::ostream& operator<<(std::ostream& out, const Date& date);
 
-    // проверка года на високосность
+    // РїСЂРѕРІРµСЂРєР° РіРѕРґР° РЅР° РІРёСЃРѕРєРѕСЃРЅРѕСЃС‚СЊ
     bool IsLeap(const int year);
 
-    // структура информации о зачаче
+    // СЃС‚СЂСѓРєС‚СѓСЂР° РёРЅС„РѕСЂРјР°С†РёРё Рѕ Р·Р°С‡Р°С‡Рµ
     struct ToDoPage {
         std::string name = ""s;
         std::string description = ""s;
@@ -94,12 +94,12 @@ namespace to_do_list {
         Status status = Status::PROCESS;
     };
 
-    // вспомогательная структура информации о сортировке по описанию
+    // РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР° РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЃРѕСЂС‚РёСЂРѕРІРєРµ РїРѕ РѕРїРёСЃР°РЅРёСЋ
     struct SortDescription {
         std::string description = ""s;
         bool description_like = false;
     };
-    // вспомогательная структура информации о сортировке по дате
+    // РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР° РёРЅС„РѕСЂРјР°С†РёРё Рѕ СЃРѕСЂС‚РёСЂРѕРІРєРµ РїРѕ РґР°С‚Рµ
     struct SortDate {
         Date date;
         std::string compare = ""s;
@@ -109,47 +109,47 @@ namespace to_do_list {
         using Header = std::string;
         using Variable = std::variant<SortDescription, SortDate, Category, Status>;
     public:
-        // обработчик введенной информации
+        // РѕР±СЂР°Р±РѕС‚С‡РёРє РІРІРµРґРµРЅРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё
         bool EnterCommand(std::istream& input = std::cin, std::ostream& output = std::cout);
 
     private:
-        std::unordered_map<Header, ToDoPage> list_; // список всех задач
+        std::unordered_map<Header, ToDoPage> list_; // СЃРїРёСЃРѕРє РІСЃРµС… Р·Р°РґР°С‡
 
-        // команда Помощь
+        // РєРѕРјР°РЅРґР° РџРѕРјРѕС‰СЊ
         void Help(std::ostream& output = std::cout);
-        // команда Добавить задачу
+        // РєРѕРјР°РЅРґР° Р”РѕР±Р°РІРёС‚СЊ Р·Р°РґР°С‡Сѓ
         void Add(ToDoPage page);
-        // команда Отметить задачу как выполненную
+        // РєРѕРјР°РЅРґР° РћС‚РјРµС‚РёС‚СЊ Р·Р°РґР°С‡Сѓ РєР°Рє РІС‹РїРѕР»РЅРµРЅРЅСѓСЋ
         void Done(std::string_view name);
-        // команда Обновить задачу
+        // РєРѕРјР°РЅРґР° РћР±РЅРѕРІРёС‚СЊ Р·Р°РґР°С‡Сѓ
         void Update(std::string_view name, std::istream& input = std::cin, std::ostream& output = std::cout);
-        // команда Удалить задачу
+        // РєРѕРјР°РЅРґР° РЈРґР°Р»РёС‚СЊ Р·Р°РґР°С‡Сѓ
         void Delete(std::string_view name);
-        // команда Отфильтровать список задач по предикату
+        // РєРѕРјР°РЅРґР° РћС‚С„РёР»СЊС‚СЂРѕРІР°С‚СЊ СЃРїРёСЃРѕРє Р·Р°РґР°С‡ РїРѕ РїСЂРµРґРёРєР°С‚Сѓ
         std::unordered_map<Header, ToDoPage> Select(std::string&& predicate);
 
-        // получить текущие дату и время в формате y-m-d h:m
+        // РїРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰РёРµ РґР°С‚Сѓ Рё РІСЂРµРјСЏ РІ С„РѕСЂРјР°С‚Рµ y-m-d h:m
         std::string GetTimeNow();
-        // изменить статус задачи
+        // РёР·РјРµРЅРёС‚СЊ СЃС‚Р°С‚СѓСЃ Р·Р°РґР°С‡Рё
         void StatusChange(const Header& name, const Status& status);
-        // фильтрация списка задач по динамическому значению предиката
+        // С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ РґРёРЅР°РјРёС‡РµСЃРєРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ РїСЂРµРґРёРєР°С‚Р°
         std::variant<SortDescription, SortDate> ProcessPredicateSortDynamicValue(std::string& predicate, size_t op_quo);
-        // фильтрация списка задач по описанию
+        // С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ РѕРїРёСЃР°РЅРёСЋ
         SortDescription ProcessPredicateSortDescription(bool like, std::string& predicate, size_t op_quo, size_t id_space_af);
-        // выделение текста описания из предиката
+        // РІС‹РґРµР»РµРЅРёРµ С‚РµРєСЃС‚Р° РѕРїРёСЃР°РЅРёСЏ РёР· РїСЂРµРґРёРєР°С‚Р°
         std::string FindDescriptonText(const std::string& text, const size_t op_quo, size_t size_for_find);
-        // фильтрация списка задач по дате
+        // С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ РґР°С‚Рµ
         SortDate ProcessPredicateSortDate(const std::string& compare, std::string& predicate, size_t op_quo, size_t id_space_af);
-        // фильтрация списка задач по статическому значению предиката
+        // С„РёР»СЊС‚СЂР°С†РёСЏ СЃРїРёСЃРєР° Р·Р°РґР°С‡ РїРѕ СЃС‚Р°С‚РёС‡РµСЃРєРѕРјСѓ Р·РЅР°С‡РµРЅРёСЋ РїСЂРµРґРёРєР°С‚Р°
         std::variant<Category, Status> ProcessPredicateSortStaticValue(std::string& predicate, size_t op_quo);
-        // получение значения категории
+        // РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ РєР°С‚РµРіРѕСЂРёРё
         Category GetCategory(const std::string& config);
-        // получение значения статуса
+        // РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ СЃС‚Р°С‚СѓСЃР°
         Status GetStasus(const std::string& config);
-        // удаление лишнего кллючего слова and в предикате
+        // СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРµРіРѕ РєР»Р»СЋС‡РµРіРѕ СЃР»РѕРІР° and РІ РїСЂРµРґРёРєР°С‚Рµ
         void DeletePredicateAnd(std::string& predicate, size_t id_space);
 
-        // получение отфильтрованного списка
+        // РїРѕР»СѓС‡РµРЅРёРµ РѕС‚С„РёР»СЊС‚СЂРѕРІР°РЅРЅРѕРіРѕ СЃРїРёСЃРєР°
         std::unordered_map<Header, ToDoPage> SortByPredicate(const std::unordered_map<Header, ToDoPage>& list, const Variable& comp);
     };
 
